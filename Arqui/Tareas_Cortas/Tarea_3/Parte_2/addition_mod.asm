@@ -38,9 +38,11 @@ error_overflow:
 	 GetCh [respuesta]     		; Recibe respuesta S|N del usuario
 	 cmp byte [respuesta],'S'	; Analiza si la respuesta es si
 	 je inicio					; Si lo es, vuelve a pedir 10 nums
+	 jmp terminar               ; Sino, termina el programa
 
 reading_done:
      PutStr  sum_msg
      PutLInt EAX           		; write the sum
      nwln
+terminar:
      .EXIT
