@@ -17,29 +17,30 @@ respuesta	   resb 1
 .CODE
      .STARTUP
 inicio:
-     PutStr  input_prompt  ; prompt for input numbers
-     mov     ECX,10        ; loop count = 10
-     sub     EAX,EAX       ; sum = 0
+     PutStr  input_prompt  		; prompt for input numbers
+     mov     ECX,10        		; loop count = 10
+     sub     EAX,EAX       		; sum = 0
 
 read_loop:
-     GetLInt EDX           ; read the input number 
-     cmp     EDX,0         ; is it zero?
-     je      reading_done  ; if yes, stop reading input         
+     GetLInt EDX           		; read the input number 
+     cmp     EDX,0         		; is it zero?
+     je      reading_done  		; if yes, stop reading input         
      add     EAX,EDX
      jo		 error_overflow
-     cmp     ECX,1         ; if 10 numbers are input 
-     je      skip_msg      ; skip displaying end_msg 
+     cmp     ECX,1         		; if 10 numbers are input 
+     je      skip_msg      		; skip displaying end_msg 
      PutStr  end_msg
 skip_msg:
-     loop    read_loop
+     loop    read_loop	   
 error_overflow:
-	 PutStr overflow_msg
-	 GetCh [respuesta]
-	 cmp byte [respuesta],'S'
-	 je inicio
+	 PutStr overflow_msg   		; Indica error de overflow y pide nuevo 
+								; intento
+	 GetCh [respuesta]     		; Recibe respuesta S|N del usuario
+	 cmp byte [respuesta],'S'	; Analiza si la respuesta es si
+	 je inicio					; Si lo es, vuelve a pedir 10 nums
 
 reading_done:
      PutStr  sum_msg
-     PutLInt EAX           ; write the sum
+     PutLInt EAX           		; write the sum
      nwln
      .EXIT
